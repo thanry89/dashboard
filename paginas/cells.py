@@ -55,7 +55,7 @@ site_3g = st.selectbox(
     index=None,
     placeholder='Seleccionar Celda 3G...'
     )
-filt_df_3g=data_3g[data_3g['CellName']==site_3g]
+filt_df_3g=data_3g[data_3g['CellName']==site_3g].sort_values(by='Tiempo')
 
 
 if site_3g:
@@ -69,7 +69,7 @@ site_lte = st.selectbox(
     index=None,
     placeholder='Seleccionar eNodeB...'
     )
-filt_df_lte=data_lte[data_lte['CellName']==site_lte]
+filt_df_lte=data_lte[data_lte['CellName']==site_lte].sort_values(by='Tiempo')
 
 if site_lte:
     plot = px.line(filt_df_lte, x='Tiempo', y=['DOWNLINK TRAFFIC VOLUME', 'UPLINK TRAFFIC VOLUME'])
