@@ -22,8 +22,8 @@ def connect():
     folder_today = '/export/home/sysm/opt/oss/server/var/fileint/pm/pmexport_' + today + '/'
     folder_yesterday = '/export/home/sysm/opt/oss/server/var/fileint/pm/pmexport_' + yesterday + '/'
     
-    os.mkdir('temp')
-    home = os.getcwd() + '\\temp'
+    #os.mkdir('temp')
+    home = os.getcwd() + '/data'
     
     with client.open_sftp() as sftp:
         #today
@@ -33,12 +33,12 @@ def connect():
         filtFiles = list(filter(lambda x: any(y in x for y in kpi), files_today))
         for file in filtFiles:
             src = folder_today + file
-            dst = home + '\\' +file
+            dst = home + '/' +file
             sftp.get(src, dst)
         filtFiles = list(filter(lambda x: any(y in x for y in kpi), files_yesterday))
         for file in filtFiles:
             src = folder_yesterday + file
-            dst = home + '\\' +file
+            dst = home + '/' +file
             sftp.get(src, dst)
     client.close()
     
@@ -47,19 +47,19 @@ def unir():
     connect()
     data_3g = []
     data_lte = []
-    files = os.listdir('temp')
+    files = os.listdir('data')
     files_3g = [file for file in files if 'Trafico_Diario_3G' in file]
     files_lte = [file for file in files if 'Trafico_Diario_LTE' in file]
     # Data 3G
     for x in files_3g:
-        rd = pd.read_csv('temp/'+x)
+        rd = pd.read_csv('data/'+x)
         rd.drop(0, inplace=True)
         data_3g.append(rd)
     result_3g = pd.concat(data_3g)
     result_3g.reset_index(drop=True,inplace=True)
     # Data LTE
     for x in files_lte:
-        rd = pd.read_csv('temp/'+x)
+        rd = pd.read_csv('data/'+x)
         rd.drop(0, inplace=True)
         data_lte.append(rd)
     result_lte = pd.concat(data_lte)
@@ -70,10 +70,10 @@ def unir():
 def prep_data():
     [data_3g, data_lte] = unir()
     
-    for x in os.listdir('temp/'):
-       os.remove('temp/'+x)
+    #for x in os.listdir('data/'):
+    #   os.remove('data/'+x)
     
-    os.rmdir('temp')
+    #os.rmdir('temp')
     
     
     # Prepare Data 3G

@@ -7,7 +7,7 @@ import os
 
 # Save data
 
-file_path = os.getcwd().replace('routine\\cells','') + 'data\\cells.pkl'
+file_path = os.getcwd().replace('routine/cells','') + 'data/cells.pkl'
 
 with open(file_path,'wb') as file:
     pickle.dump([data_3g, data_lte], file)
