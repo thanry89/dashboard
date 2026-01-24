@@ -30,6 +30,7 @@ nextRun = reportTime + datetime.timedelta(seconds=300)
 waitSec = int((nextRun - datetime.datetime.now()).total_seconds())+6
 datetime.datetime.now() + datetime.timedelta(seconds=waitSec)
 print('Hora de Siguiente Reporte: ', nextRun)
+print('Hora actual', datetime.datetime.now())
 time.sleep(waitSec)
 
 while True:
@@ -52,6 +53,7 @@ while True:
     print('Hora de Reporte: ', reportTime)
     nextRun = reportTime + datetime.timedelta(seconds=300)
     print('Hora de Siguiente Reporte: ', nextRun)
+    print('Hora actual', datetime.datetime.now())
     elapsed_time = end_time - start_time
     print(f"Execution time: {elapsed_time:.6f} seconds")
     time.sleep(300)
