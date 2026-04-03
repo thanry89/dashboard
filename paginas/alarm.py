@@ -14,19 +14,6 @@ alt.themes.enable("dark")
 with open('data/alarms.pkl', 'rb') as file:
     alarms, reportTime = pickle.load(file)
 
-st.title('Sitios Caidos')
-
-if "Refresh" not in st.session_state:
-    st.session_state.Refresh = False
-
-if st.button("Refresh"):
-    Refresh = st.session_state.Refresh
-    st.session_state.Refresh = not Refresh
-
-if st.session_state.Refresh:
-    st.session_state.Refresh = False
-    st.rerun()
-
 # Leer los sitios a cargo de RI
 sitiosRI = pd.read_excel('data/SitiosRI.xlsx', sheet_name='Sitios')
 seguimiento = pd.read_excel('data/Sitios3G.xlsx', sheet_name='Seguimiento')
@@ -34,7 +21,7 @@ seguimiento = pd.read_excel('data/Sitios3G.xlsx', sheet_name='Seguimiento')
 # Alarmas de Energía
 almEnergia = alarms[alarms['Alarma'].isin(['Falla de AC', 'Falla de Red Publica, Falla AC'])]
 almEnergia = almEnergia[almEnergia.Status == 'Unacknowledged and uncleared Alarm']
-filter = almEnergia['LocationInformation'].str.contains('AC Overvoltage')
+filter = almEnergia['LocationInformation'].str.contains('AC Overvoltage|AC Undervoltage')
 almEnergia = almEnergia[~filter]
 
 almEnergia = almEnergia[['Sitio', 'Alarma', 'Fecha']]
@@ -43,6 +30,8 @@ almEnergia.sort_values(by='Fecha', ascending=False, inplace=True)
 # Añádir Tiempo de Caida
 almEnergia['Tiempo'] = datetime.datetime.now() - almEnergia['Fecha']
 almEnergia = almEnergia[almEnergia.Sitio.isin(sitiosRI['Nombre Gestor'])]
+NEs = ['PIC_UIO_ODEBRECHT_UL']
+almEnergia = almEnergia[~almEnergia['Sitio'].isin(NEs)]
 
 # Presentar alarmas de NEs sin servicio
 NE = alarms[alarms['Alarma'] == 'NE Is Disconnected'][['Sitio', 'Fecha', 'Status']]
@@ -74,16 +63,30 @@ caidos = caidos[caidos.Sitio.isin(sitiosRI['Nombre Gestor'])]
 atencion = caidos[~caidos.Sitio.isin(seguimiento['Sitio'])]
 seguimiento = caidos[caidos.Sitio.isin(seguimiento['Sitio'])]
 
-st.dataframe(atencion, hide_index=True, width=5000)
-st.subheader('Seguimiento')
-st.dataframe(seguimiento, hide_index=True, width=5000)
-st.text(reportTime)
-st.text(reportTime + datetime.timedelta(minutes=5))   
+st.subheader('Sitios Caidos')
 
+if "Refresh" not in st.session_state:
+    st.session_state.Refresh = False
+
+if st.button("Refresh"):
+    Refresh = st.session_state.Refresh
+    st.session_state.Refresh = not Refresh
+
+if st.session_state.Refresh:
+    st.session_state.Refresh = False
+    st.rerun()
+
+st.write(f'Hora de Reporte: {reportTime}')
+st.write(f'Siguiente Reporte: {reportTime + datetime.timedelta(minutes=5)}')
+
+st.dataframe(atencion, hide_index=True, width=5000)
 
 # Presentar alarmas de energía
-st.title('Fallas de Energia')
+st.subheader('Fallas de Energia')
 st.dataframe(almEnergia, hide_index=True, width=5000)
+
+st.subheader('Seguimiento')
+st.dataframe(seguimiento, hide_index=True, width=5000)
 
 #with col1:
 site = st.selectbox(
