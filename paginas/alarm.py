@@ -30,7 +30,7 @@ almEnergia.sort_values(by='Fecha', ascending=False, inplace=True)
 # Añádir Tiempo de Caida
 almEnergia['Tiempo'] = datetime.datetime.now() - almEnergia['Fecha']
 almEnergia = almEnergia[almEnergia.Sitio.isin(sitiosRI['Nombre Gestor'])]
-NEs = ['PIC_UIO_ODEBRECHT_UL']
+NEs = ['PIC_UIO_ODEBRECHT_UL', 'PI_UIO_CARCELEN_UL', 'PI_UIO_LDU_UL', 'PI_UIO_HERMANO_MIGUEL_UL', 'PI_UIO_CONOCOTO_UL']
 almEnergia = almEnergia[~almEnergia['Sitio'].isin(NEs)]
 
 # Presentar alarmas de NEs sin servicio
