@@ -19,7 +19,7 @@ sitiosRI = pd.read_excel('data/SitiosRI.xlsx', sheet_name='Sitios')
 seguimiento = pd.read_excel('data/Sitios3G.xlsx', sheet_name='Seguimiento')
 
 # Alarmas de Energía
-almEnergia = alarms[alarms['Alarma'].isin(['Falla de AC', 'Falla de Red Publica', 'Falla AC'])]
+almEnergia = alarms[alarms['Alarma'].isin(['Falla de AC', 'Falla AC'])]
 almEnergia = almEnergia[almEnergia.Status == 'Unacknowledged and uncleared Alarm']
 filter = almEnergia['LocationInformation'].str.contains('AC Overvoltage|AC Undervoltage')
 almEnergia = almEnergia[~filter]
