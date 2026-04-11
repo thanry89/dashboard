@@ -44,7 +44,7 @@ def connect():
     
 
 def unir():
-    #connect()
+    connect()
     data_3g = []
     data_lte = []
     files = os.listdir('data')
@@ -75,11 +75,8 @@ def unir():
 def prep_data():
     [data_3g, data_lte] = unir()
     
-    #for x in os.listdir('data/'):
-    #   os.remove('data/'+x)
-    
-    #os.rmdir('temp')
-    
+    for x in os.listdir('data/'):
+       os.remove('data/'+x)
     
     # Prepare Data 3G
     data_3g.drop(['Granularity Period', 'Reliability'], inplace=True, axis=1)
