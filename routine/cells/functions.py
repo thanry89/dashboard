@@ -24,7 +24,7 @@ def connect():
     
     os.makedirs("temp", exist_ok=True)
     #os.mkdir('temp')
-    home = os.getcwd() + '/'
+    home = os.getcwd() + '/temp/'
     
     with client.open_sftp() as sftp:
         #today
@@ -78,6 +78,7 @@ def prep_data():
     
     for x in os.listdir('temp/'):
        os.remove('temp/'+x)
+    os.rmdir('temp')
     
     # Prepare Data 3G
     data_3g.drop(['Granularity Period', 'Reliability'], inplace=True, axis=1)
