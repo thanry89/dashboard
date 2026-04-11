@@ -22,8 +22,9 @@ def connect():
     folder_today = '/export/home/sysm/opt/oss/server/var/fileint/pm/pmexport_' + today + '/'
     folder_yesterday = '/export/home/sysm/opt/oss/server/var/fileint/pm/pmexport_' + yesterday + '/'
     
+    os.makedirs("temp", exist_ok=True)
     #os.mkdir('temp')
-    home = os.getcwd() + '/data'
+    home = os.getcwd() + '/'
     
     with client.open_sftp() as sftp:
         #today
@@ -47,19 +48,19 @@ def unir():
     connect()
     data_3g = []
     data_lte = []
-    files = os.listdir('data')
+    files = os.listdir('temp')
     files_3g = [file for file in files if 'Trafico_Diario_3G' in file]
     files_lte = [file for file in files if 'Trafico_Diario_LTE' in file]
     # Data 3G
     for x in files_3g:
-        rd = pd.read_csv('data/'+x)
+        rd = pd.read_csv('temp/'+x)
         rd.drop(0, inplace=True)
         data_3g.append(rd)
     result_3g = pd.concat(data_3g)
     result_3g.reset_index(drop=True,inplace=True)
     # Data LTE
     for x in files_lte:
-        rd = pd.read_csv('data/'+x)
+        rd = pd.read_csv('temp/'+x)
         rd.drop(0, inplace=True)
         data_lte.append(rd)
     result_lte = pd.concat(data_lte)
@@ -75,8 +76,8 @@ def unir():
 def prep_data():
     [data_3g, data_lte] = unir()
     
-    for x in os.listdir('data/'):
-       os.remove('data/'+x)
+    for x in os.listdir('temp/'):
+       os.remove('temp/'+x)
     
     # Prepare Data 3G
     data_3g.drop(['Granularity Period', 'Reliability'], inplace=True, axis=1)
@@ -113,5 +114,3 @@ def prep_data():
                         'LocalCellID', 'DOWNLINK TRAFFIC VOLUME',
                         'UPLINK TRAFFIC VOLUME']]
     return([data_3g, data_lte])
-
-
