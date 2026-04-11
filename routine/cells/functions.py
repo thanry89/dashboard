@@ -44,7 +44,7 @@ def connect():
     
 
 def unir():
-    connect()
+    #connect()
     data_3g = []
     data_lte = []
     files = os.listdir('data')
@@ -64,6 +64,11 @@ def unir():
         data_lte.append(rd)
     result_lte = pd.concat(data_lte)
     result_lte.reset_index(drop=True,inplace=True)
+    result_3g['Result Time'] = pd.to_datetime(result_3g['Result Time'], format='%Y-%m-%d %H:%M')
+    result_lte['Result Time'] = pd.to_datetime(result_lte['Result Time'], format='%Y-%m-%d %H:%M')
+    period = pd.Timestamp.now() - pd.Timedelta(days=7)
+    result_3g = result_3g[result_3g['Result Time'] >= period]
+    result_lte = result_lte[result_lte['Result Time'] >= period]
     return [result_3g, result_lte]
 
 
@@ -87,7 +92,7 @@ def prep_data():
     data_3g['CellName'] = data_3g.apply(lambda row: re.findall('Label=(.*),',
                                                    row['Object'])[0], axis=1)
       
-    data_3g.Tiempo = pd.to_datetime(data_3g.Tiempo, format='%Y-%m-%d %H:%M')
+    #data_3g.Tiempo = pd.to_datetime(data_3g.Tiempo, format='%Y-%m-%d %H:%M')
     
     data_3g= data_3g[['Tiempo', 'RNC', 'CellID', 'CellName', 
                      'AMR TRAFFIC VOLUME', 'PS TRAFFIC VOLUME']]
@@ -105,7 +110,7 @@ def prep_data():
     data_lte['LocalCellID'] = data_lte.apply(lambda row: re.findall('Local Cell ID=(.*?),',
                                                    row['Object'])[0], axis=1)
     
-    data_lte.Tiempo = pd.to_datetime(data_lte.Tiempo, format='%Y-%m-%d %H:%M')
+    #data_lte.Tiempo = pd.to_datetime(data_lte.Tiempo, format='%Y-%m-%d %H:%M')
     
     data_lte= data_lte[['Tiempo', 'eNodeB', 'CellName', 'eNodeBID', 
                         'LocalCellID', 'DOWNLINK TRAFFIC VOLUME',
