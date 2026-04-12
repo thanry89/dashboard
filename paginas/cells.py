@@ -10,8 +10,8 @@ with open('data/cells.pkl', 'rb') as file:
     [data_3g, data_lte] = pickle.load(file)
 
 period = pd.Timestamp.now() - pd.Timedelta(hours=12)
-data_3g_last = data_3g[data_3g['Result Time'] >= period]
-data_lte_last = data_lte[data_lte['Result Time'] >= period]
+data_3g_last = data_3g[data_3g['Tiempo'] >= period]
+data_lte_last = data_lte[data_lte['Tiempo'] >= period]
 
 
 # Load Cell Info
@@ -23,8 +23,8 @@ seguimiento['CellID'] = seguimiento['CellID'].apply(lambda x: str(x))
 
 #Trafico Promedio 3G
 meanTable_3g = data_3g_last[['CellName', 'CellID']].drop_duplicates()
-data_3g_last['AMR TRAFFIC VOLUME']= pd.to_numeric(data_3g['AMR TRAFFIC VOLUME'], downcast='integer', errors='coerce')
-data_3g_last['PS TRAFFIC VOLUME']= pd.to_numeric(data_3g['PS TRAFFIC VOLUME'], downcast='integer', errors='coerce')
+data_3g_last['AMR TRAFFIC VOLUME']= pd.to_numeric(data_3g_last['AMR TRAFFIC VOLUME'], downcast='integer', errors='coerce')
+data_3g_last['PS TRAFFIC VOLUME']= pd.to_numeric(data_3g_last['PS TRAFFIC VOLUME'], downcast='integer', errors='coerce')
 promedios = data_3g_last.groupby(['CellID'])[['AMR TRAFFIC VOLUME', 'PS TRAFFIC VOLUME']].mean()
 meanTable_3g = meanTable_3g.join(promedios, on = 'CellID')
 
@@ -32,7 +32,7 @@ meanTable_3g = meanTable_3g.join(promedios, on = 'CellID')
 meanTable_lte = data_lte_last[['CellName','eNodeBID', 'LocalCellID']].drop_duplicates()
 data_lte_last['DOWNLINK TRAFFIC VOLUME']= pd.to_numeric(data_lte_last['DOWNLINK TRAFFIC VOLUME'], downcast='integer', errors='coerce')
 data_lte_last['UPLINK TRAFFIC VOLUME']= pd.to_numeric(data_lte_last['UPLINK TRAFFIC VOLUME'], downcast='integer', errors='coerce')
-promedios = data_lte.groupby(['CellName'])[['DOWNLINK TRAFFIC VOLUME', 'UPLINK TRAFFIC VOLUME']].mean()
+promedios = data_lte_last.groupby(['CellName'])[['DOWNLINK TRAFFIC VOLUME', 'UPLINK TRAFFIC VOLUME']].mean()
 meanTable_lte = meanTable_lte.join(promedios, on = 'CellName')
 
 # Celdas Caídas
