@@ -2,6 +2,9 @@ from functions import prep_data
 import pickle
 import pandas as pd
 import os
+import schedule
+
+def get_data:
 
 # Prepare Data
 [data_3g_actual, data_lte_actual] = prep_data()
