@@ -30,7 +30,7 @@ def start_interval():
     get_data()
     return schedule.CancelJob
 
-schedule.every().day.at("14:00").do(start_interval)
+schedule.every().day.at("09:35").do(start_interval)
 
 while True:
     schedule.run_pending()
