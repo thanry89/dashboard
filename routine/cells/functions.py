@@ -23,7 +23,6 @@ def connect():
     folder_yesterday = '/export/home/sysm/opt/oss/server/var/fileint/pm/pmexport_' + yesterday + '/'
     
     os.makedirs("temp", exist_ok=True)
-    #os.mkdir('temp')
     home = os.getcwd() + '/temp/'
     
     with client.open_sftp() as sftp:
@@ -91,8 +90,6 @@ def prep_data():
     data_3g['CellName'] = data_3g.apply(lambda row: re.findall('Label=(.*),',
                                                    row['Object'])[0], axis=1)
       
-    #data_3g.Tiempo = pd.to_datetime(data_3g.Tiempo, format='%Y-%m-%d %H:%M')
-    
     data_3g= data_3g[['Tiempo', 'RNC', 'CellID', 'CellName', 
                      'AMR TRAFFIC VOLUME', 'PS TRAFFIC VOLUME']]
     
@@ -108,8 +105,6 @@ def prep_data():
                                                    row['Object'])[0], axis=1)
     data_lte['LocalCellID'] = data_lte.apply(lambda row: re.findall('Local Cell ID=(.*?),',
                                                    row['Object'])[0], axis=1)
-    
-    #data_lte.Tiempo = pd.to_datetime(data_lte.Tiempo, format='%Y-%m-%d %H:%M')
     
     data_lte= data_lte[['Tiempo', 'eNodeB', 'CellName', 'eNodeBID', 
                         'LocalCellID', 'DOWNLINK TRAFFIC VOLUME',
