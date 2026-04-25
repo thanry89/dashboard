@@ -18,6 +18,9 @@ def get_data():
 
     data_3g = pd.concat([data_3g_previo, data_3g_actual]).drop_duplicates().reset_index(drop=True)
     data_lte = pd.concat([data_lte_previo, data_lte_actual]).drop_duplicates().reset_index(drop=True)
+    period = pd.Timestamp.now() - pd.Timedelta(days=7)
+    data_3g = data_3g[data_3g['Tiempo'] >= period]
+    data_lte = data_lte[data_lte['Tiempo'] >= period]
 
     # Save data
     with open(file_path,'wb') as file:
