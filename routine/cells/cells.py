@@ -30,7 +30,19 @@ def start_interval():
     get_data()
     return schedule.CancelJob
 
-schedule.every().day.at("09:35").do(start_interval)
+
+tiempo = pd.Timestamp.now()
+minu = tiempo.minute
+hour = tiempo.hour
+if minu < 30:
+    minutos = '37'
+    hora = hour
+else:
+    minutos = '07'
+    hora = hour + 1
+txt = str(hora) + ':' + minutos
+
+schedule.every().day.at(txt).do(start_interval)
 
 while True:
     schedule.run_pending()

@@ -9,7 +9,7 @@ st.title("Trafico Celdas")
 with open('data/cells.pkl', 'rb') as file:
     [data_3g, data_lte] = pickle.load(file)
 
-period = pd.Timestamp.now() - pd.Timedelta(hours=12)
+period = pd.Timestamp.now() - pd.Timedelta(hours=6)
 data_3g_last = data_3g[data_3g['Tiempo'] >= period]
 data_lte_last = data_lte[data_lte['Tiempo'] >= period]
 
