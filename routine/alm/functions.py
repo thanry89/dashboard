@@ -118,10 +118,11 @@ def get_alarms():
             data.loc[i, 'Sitio'] = txt[0]
     
     # Archivos Base
-    bitacora = pd.read_excel('data/Bitacora.xlsx')
-    sites = pd.read_excel('data/Sitios.xlsx', sheet_name='Escalamiento')
-    sitios3G = pd.read_excel('data/Sitios.xlsx', sheet_name='Sitios3G')
-    cluster = pd.read_excel('data/Sitios.xlsx', sheet_name='Cluster')
+    route = os.getcwd().replace('routine/alm/data', 'data/')
+    bitacora = pd.read_excel(route + 'Bitacora.xlsx')
+    sites = pd.read_excel(route + 'Sitios.xlsx', sheet_name='Escalamiento')
+    sitios3G = pd.read_excel(route + 'base.xlsx', sheet_name='Sitios3G')
+    cluster = pd.read_excel(route + 'base.xlsx', sheet_name='Cluster')
     
     # Cambiar Nombre 3G a Nombre Gestor    
     x = pd.merge(data['Sitio'], sites, on='Sitio', how ='left')
@@ -170,8 +171,9 @@ def get_alarms():
 
 def alm_report(alarms):
     # Leer los sitios a cargo de RI
-    sitiosRI = pd.read_excel('data/SitiosRI.xlsx', sheet_name='Sitios')
-    seguimiento = pd.read_excel('data/Sitios3G.xlsx', sheet_name='Seguimiento')
+    route = os.getcwd().replace('routine/alm/data', 'data/')
+    sitiosRI = pd.read_excel(route + 'base.xlsx', sheet_name='SitiosRI')
+    seguimiento = pd.read_excel(route + 'base.xlsx', sheet_name='SeguimientoSitios')
 
     # Alarmas de Energía
     almEnergia = alarms[alarms['Alarma'].isin(['Falla de AC', 'Falla de Red Publica, Falla AC'])]

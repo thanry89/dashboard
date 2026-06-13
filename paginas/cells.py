@@ -9,16 +9,16 @@ st.title("Trafico Celdas")
 with open('data/cells.pkl', 'rb') as file:
     [data_3g, data_lte] = pickle.load(file)
 
-period = pd.Timestamp.now() - pd.Timedelta(hours=6)
+period = pd.Timestamp.now() - pd.Timedelta(hours=24)
 data_3g_last = data_3g[data_3g['Tiempo'] >= period]
 data_lte_last = data_lte[data_lte['Tiempo'] >= period]
 
 
 # Load Cell Info
-sitiosRI = pd.read_excel(io='data/SitiosRI.xlsx', sheet_name='Sitios')
-celdasRI = pd.read_excel(io='data/SitiosRI.xlsx', sheet_name='Celdas')
+sitiosRI = pd.read_excel(io='data/base.xlsx', sheet_name='SitiosRI')
+celdasRI = pd.read_excel(io='data/base.xlsx', sheet_name='Celdas')
 celdasRI['CellID'] = celdasRI['CellID'].apply(lambda x: str(x))
-seguimiento = pd.read_excel('data/SeguimientoCeldas.xlsx')
+seguimiento = pd.read_excel('data/base.xlsx', sheet_name='SeguimientoCeldas')
 seguimiento['CellID'] = seguimiento['CellID'].apply(lambda x: str(x))
 
 #Trafico Promedio 3G

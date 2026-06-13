@@ -15,8 +15,8 @@ with open('data/alarms.pkl', 'rb') as file:
     alarms, reportTime = pickle.load(file)
 
 # Leer los sitios a cargo de RI
-sitiosRI = pd.read_excel('data/SitiosRI.xlsx', sheet_name='Sitios')
-seguimiento = pd.read_excel('data/Sitios3G.xlsx', sheet_name='Seguimiento')
+sitiosRI = pd.read_excel('data/base.xlsx', sheet_name='SitiosRI')
+seguimiento = pd.read_excel('data/base.xlsx', sheet_name='SeguimientoSitios')
 
 # Alarmas de Energía
 almEnergia = alarms[alarms['Alarma'].isin(['Falla de AC', 'Falla AC'])]
