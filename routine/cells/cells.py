@@ -45,7 +45,7 @@ else:
     hora = hour + 1
 txt = str(hora) + ':' + minutos
 
-schedule.every().day.at('14:37').do(start_interval)
+schedule.every().day.at('09:37').do(start_interval)
 
 while True:
     schedule.run_pending()

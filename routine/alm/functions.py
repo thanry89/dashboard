@@ -118,9 +118,9 @@ def get_alarms():
             data.loc[i, 'Sitio'] = txt[0]
     
     # Archivos Base
-    route = os.getcwd().replace('routine/alm/data', 'data/')
+    route = os.getcwd().replace('routine/alm', 'data/')
     bitacora = pd.read_excel(route + 'Bitacora.xlsx')
-    sites = pd.read_excel(route + 'Sitios.xlsx', sheet_name='Escalamiento')
+    sites = pd.read_excel(route + 'base.xlsx', sheet_name='Escalamiento')
     sitios3G = pd.read_excel(route + 'base.xlsx', sheet_name='Sitios3G')
     cluster = pd.read_excel(route + 'base.xlsx', sheet_name='Cluster')
     
@@ -171,7 +171,7 @@ def get_alarms():
 
 def alm_report(alarms):
     # Leer los sitios a cargo de RI
-    route = os.getcwd().replace('routine/alm/data', 'data/')
+    route = os.getcwd().replace('routine/alm', 'data/')
     sitiosRI = pd.read_excel(route + 'base.xlsx', sheet_name='SitiosRI')
     seguimiento = pd.read_excel(route + 'base.xlsx', sheet_name='SeguimientoSitios')
 
